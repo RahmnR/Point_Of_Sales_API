@@ -1,15 +1,14 @@
 package com.enigma.pos.service;
 
-import com.enigma.pos.entity.Product;
+import com.enigma.pos.model.request.ProductRequest;
 import com.enigma.pos.model.response.ProductResponse;
 
-import java.awt.event.PaintEvent;
 import java.util.List;
 
 public interface ProductService {
-    ProductResponse create(Product product);
+    ProductResponse create(ProductRequest request);
     List<ProductResponse> getAll();
     ProductResponse getByCode(String code);
-    ProductResponse update(Product product);
+    ProductResponse update(ProductRequest request);
     void deleteByCode(String code);
 }

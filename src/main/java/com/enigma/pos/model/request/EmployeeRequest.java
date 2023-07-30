@@ -1,4 +1,4 @@
-package com.enigma.pos.model.response;
+package com.enigma.pos.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class ProductResponse {
-    private String codeProduct;
-    private String productName;
-    private Long price;
-    private String category;
+public class EmployeeRequest {
+    private String name;
+    private String email;
 }

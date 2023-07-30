@@ -20,6 +20,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,String> {
     @Query(value = "SELECT * FROM m_employee",nativeQuery = true)
     List<Employee> findAllEmployee();
     @Modifying
-    @Query(value = "UPDATE m_employee SET name= :name WHERE email = :email",nativeQuery = true)
-    void updateEmployee(@Param("name")String name,@Param("email")String email);
+    @Query(value = "UPDATE m_employee SET name= :name, WHERE email = :email",nativeQuery = true)
+    void updateEmployeeBy(@Param("name")String name,@Param("email")String email);
 }

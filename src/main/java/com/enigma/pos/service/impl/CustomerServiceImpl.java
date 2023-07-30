@@ -21,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public Customer create( Customer customer) {
         return customerRepository.save(customer);
     }
@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public Customer updateById(Customer customer) {
 
         customerRepository.updateCustomer(customer.getName(), customer.getPhone(), customer.getId());
@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void deleteByPhone(String phone) {
         Customer customer = getByPhone(phone);
         if (customer != null) {

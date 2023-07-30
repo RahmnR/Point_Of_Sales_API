@@ -18,6 +18,15 @@ public class DetailOrder {
     @Column(name = "id_detail")
     private String id;
 
+    @Column(name = "product_code")
+    private String productCode;
+
+    @Column(name = "product")
+    private String product;
+
+    @Column(name = "price")
+    private Long price;
+
     @Column(name = "quantity")
     private Integer quantity;
 
@@ -29,10 +38,12 @@ public class DetailOrder {
     public DetailOrder() {
     }
 
-    public DetailOrder(String id, Integer quantity, Order order) {
+    public DetailOrder(String id, String productCode, String product, Long price, Integer quantity, Order order) {
         this.id = id;
+        this.productCode = productCode;
+        this.product = product;
+        this.price = price;
         this.quantity = quantity;
         this.order = order;
     }
-
 }
