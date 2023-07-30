@@ -17,10 +17,14 @@ public interface CustomerRepository extends JpaRepository<Customer,String > {
     @Query(value = "DELETE FROM m_customer WHERE phone = :phone", nativeQuery = true)
     void deleteCustomerByPhone(@Param("phone") String phone);
 
+    @Query(value = "SELECT c FROM m_customer as c WHERE id = :id",nativeQuery = true)
+    Customer findCustomerById(String id);
+
     @Query(value = "SELECT * FROM m_customer",nativeQuery = true)
     List<Customer> findAllCustomer();
     @Modifying
     @Query(value = "UPDATE m_customer SET name= :name, phone = :phone WHERE id = :id",nativeQuery = true)
     void updateCustomer(@Param("name")String name,@Param("phone")String phone,@Param("id")String id);
+
 
 }

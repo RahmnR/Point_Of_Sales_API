@@ -10,6 +10,7 @@ public interface EmployeeService {
 
     EmployeeResponse create(EmployeeRequest request);
     EmployeeResponse getByEmail(String email);
+    Employee getEmploye(String email);
     List<EmployeeResponse> getAll();
     EmployeeResponse update(EmployeeRequest request);
     void deleteByEmail(String email);

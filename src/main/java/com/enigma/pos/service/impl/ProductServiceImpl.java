@@ -63,13 +63,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getByCode(String code) {
-        Product product = productRepository.findProductByCode(code).orElseThrow();
+        Product product = getProductByCode(code);
         return ProductResponse.builder()
                 .codeProduct(product.getCodeProduct())
                 .productName(product.getName())
                 .price(product.getPrice())
                 .category(product.getCategory().getCategory())
                 .build();
+    }
+
+    @Override
+    public Product getProductByCode(String code) {
+        return productRepository.findProductByCode(code).orElseThrow();
     }
 
     @Transactional(rollbackOn = Exception.class)

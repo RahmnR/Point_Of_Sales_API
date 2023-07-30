@@ -20,6 +20,9 @@ public class Order {
     @Column(name = "id")
     private String id;
 
+    @Column(name = "invoice", nullable = false)
+    private String invoice;
+
     @Column(name = "date", nullable = false)
     private LocalDateTime orderDate;
 
@@ -38,12 +41,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(String id, LocalDateTime orderDate, List<DetailOrder> detailOrders, Customer customer, Employee employee) {
+    public Order(String id, String invoice, LocalDateTime orderDate, List<DetailOrder> detailOrders, Customer customer, Employee employee) {
         this.id = id;
+        this.invoice = invoice;
         this.orderDate = orderDate;
         this.detailOrders = detailOrders;
         this.customer = customer;
         this.employee = employee;
     }
-
 }

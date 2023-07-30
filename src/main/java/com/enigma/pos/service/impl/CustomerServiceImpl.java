@@ -23,35 +23,46 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public Customer create( Customer customer) {
-        return customerRepository.save(customer);
+        try {
+            return customerRepository.save(customer);
+        }catch (RuntimeException e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     @Override
-    public Customer getByPhone(String phone) {
+    public Customer getCustomerByPhone(String phone) {
         return customerRepository.findCustomerByPhone(phone).orElse(null);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public Customer updateById(Customer customer) {
+        try {
+            Customer customerById = customerRepository.findCustomerById(customer.getId());
+            if (customerById != null) {
+                customerRepository.updateCustomer(customer.getName(), customer.getPhone(), customer.getId());
+            }
+            return getCustomerByPhone(customer.getPhone());
+        }catch (RuntimeException e){
+            throw new RuntimeException(e.getMessage());
+        }
 
-        customerRepository.updateCustomer(customer.getName(), customer.getPhone(), customer.getId());
-        return customer;
     }
 
     @Override
-    public List<CustomerResponse> getAll() {
-        return customerRepository.findAllCustomer().stream().map(customer -> {
-            return CustomerResponse.builder().name(customer.getName()).Phone(customer.getPhone()).build();
-        }).collect(Collectors.toList());
+    public List<Customer> getAll() {
+        return customerRepository.findAllCustomer();
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void deleteByPhone(String phone) {
-        Customer customer = getByPhone(phone);
+        Customer customer = getCustomerByPhone(phone);
         if (customer != null) {
             customerRepository.delete(customer);
         }
     }
+
 }

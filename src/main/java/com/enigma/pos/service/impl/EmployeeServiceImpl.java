@@ -6,7 +6,9 @@ import com.enigma.pos.model.response.EmployeeResponse;
 import com.enigma.pos.repository.EmployeeRepository;
 import com.enigma.pos.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -38,11 +40,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeResponse getByEmail(String email) {
-        Employee employee = employeeRepository.findEmployeeByEmail(email).orElse(null);
+        Employee employee = getEmploye(email);
         return EmployeeResponse.builder()
                 .name(employee.getName())
                 .email(employee.getEmail())
                 .build();
+    }
+
+    @Override
+    public Employee getEmploye(String email) {
+        return employeeRepository.findEmployeeByEmail(email)
+                .orElseThrow(() -> {throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Data Not Found");
+                });
     }
 
     @Override
@@ -70,7 +79,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteByEmail(String email) {
         try {
-
             Optional<Employee> employee = employeeRepository.findEmployeeByEmail(email);
             if (employee.isPresent()) {
                 employeeRepository.deleteEmployeeByEmail(email);

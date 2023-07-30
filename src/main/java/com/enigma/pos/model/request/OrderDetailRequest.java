@@ -5,14 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class OrderRequest {
-    private List<OrderDetailRequest> orderDetailRequests;
-    private String customerPhone;
-    private String employeeEmail;
+public class OrderDetailRequest {
+    private String codeProduct;
+    private Long price;
+    private Integer quantity;
+    private String category;
 }

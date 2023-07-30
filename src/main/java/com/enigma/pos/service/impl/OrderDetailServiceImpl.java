@@ -1,9 +1,6 @@
 package com.enigma.pos.service.impl;
 
 import com.enigma.pos.entity.DetailOrder;
-import com.enigma.pos.entity.Order;
-import com.enigma.pos.model.request.ProductRequest;
-import com.enigma.pos.model.response.ProductResponse;
 import com.enigma.pos.repository.OrderDetailRepository;
 import com.enigma.pos.service.OrderDetailService;
 import org.springframework.stereotype.Service;
