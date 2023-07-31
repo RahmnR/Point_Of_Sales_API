@@ -2,8 +2,17 @@
 API kasir sederhana dengan fitur transaksi yang menyimpan data kasir, serta customer. Menggunakan database postgreSQL, Springboot Framework, serta RestfulAPI dalam penggunaannya.
 Endpoints
 
-Berikut adalah daftar endpoint yang tersedia:
-## 1. /customers
+Koneksi postgreSQL :
+
+    application.properties:
+    {
+        spring.datasource.username={username-datasource}
+        spring.datasource.password={password-datasource}
+        spring.datasource.url=jdbc:postgresql://localhost:5432/{database}
+    }
+
+### Berikut adalah daftar endpoint yang tersedia:
+### 1. /customers
 
 Endpoint ini digunakan untuk mengelola data pelanggan.
 
@@ -69,7 +78,7 @@ Endpoint ini digunakan untuk mengelola data pelanggan.
       "phone": "08765444"
     }
 
-## 2. /employees
+### 2. /employees
 
 Endpoint ini digunakan untuk mengelola data kasir.
 
@@ -123,7 +132,7 @@ Endpoint ini digunakan untuk mengelola data kasir.
       "email": "karyawan2@mail.com"
     }
 
-## 3./products
+### 3./products
 
 Endpoint ini digunakan untuk mengelola data produk yang tersedia di toko.
 
@@ -216,7 +225,7 @@ DELETE /products/{code}
     Contoh Permintaan: DELETE /products/BAJ1
     Contoh Respons: Success
     
-## 4. /orders
+### 4. /orders
 
 Endpoint ini digunakan untuk mengelola transaksi (pesanan).
 
@@ -334,5 +343,3 @@ Endpoint ini digunakan untuk mengelola transaksi (pesanan).
       "customerName": "customer",
       "employeeName": "karyawan"
     }
-
-    

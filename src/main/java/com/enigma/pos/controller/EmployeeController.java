@@ -35,14 +35,14 @@ public class EmployeeController {
         return employeeService.update(request);
     }
 
-    @DeleteMapping("/{email}")
-    public String delete(@PathVariable String email){
-        try{
-            employeeService.deleteByEmail(email);
-            return "Success";
-        }catch (ResponseStatusException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Data Not Found");
-        }
-    }
+//    @DeleteMapping("/{email}")
+//    public String delete(@PathVariable String email){
+//        try{
+//            employeeService.deleteByEmail(email);
+//            return "Success";
+//        }catch (ResponseStatusException e){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Data Not Found");
+//        }
+//    }
 }
 
