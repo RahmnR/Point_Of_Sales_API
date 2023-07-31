@@ -14,6 +14,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class OrderResponse {
 
+    private String invoice;
     private String orderDate;
     private List<DetailOrderResponse> detailResponse;
     private String customerName;

@@ -15,8 +15,6 @@ import java.util.List;
 @Table(name = "t_order")
 public class Order {
     @Id
-    @GenericGenerator(strategy = "uuid2", name = "system-uuid")
-    @GeneratedValue(generator = "system-uuid")
     @Column(name = "id")
     private String id;
 
@@ -26,8 +24,8 @@ public class Order {
     @Column(name = "date", nullable = false)
     private LocalDateTime orderDate;
 
-    @OneToMany(mappedBy = "id")
     @JsonManagedReference
+    @OneToMany(mappedBy = "order")
     private List<DetailOrder> detailOrders;
 
     @ManyToOne

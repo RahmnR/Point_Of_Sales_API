@@ -1,7 +1,6 @@
 package com.enigma.pos.service.impl;
 
 import com.enigma.pos.entity.Customer;
-import com.enigma.pos.model.response.CustomerResponse;
 import com.enigma.pos.repository.CustomerRepository;
 import com.enigma.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -24,11 +22,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(rollbackOn = Exception.class)
     public Customer create( Customer customer) {
         try {
-            return customerRepository.save(customer);
+            String id = "CTM"+getAll().size()+1;
+            if (customer.getName() != null && customer.getPhone() != null){
+                customerRepository.createCustommer(id, customer.getName(), customer.getPhone());
+            }
+            return customerRepository.findCustomerById(id);
         }catch (RuntimeException e){
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     @Override
@@ -43,12 +44,12 @@ public class CustomerServiceImpl implements CustomerService {
             Customer customerById = customerRepository.findCustomerById(customer.getId());
             if (customerById != null) {
                 customerRepository.updateCustomer(customer.getName(), customer.getPhone(), customer.getId());
+                return getCustomerByPhone(customer.getPhone());
             }
-            return getCustomerByPhone(customer.getPhone());
+            return null;
         }catch (RuntimeException e){
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     @Override
@@ -58,11 +59,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public void deleteByPhone(String phone) {
-        Customer customer = getCustomerByPhone(phone);
-        if (customer != null) {
-            customerRepository.delete(customer);
+    public void deleteById(String id) {
+        try {
+            Customer customer = getCustomerByPhone(id);
+            customerRepository.deleteCustomerById(id);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
         }
     }
-
 }

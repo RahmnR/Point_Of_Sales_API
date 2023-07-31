@@ -38,12 +38,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse create(OrderRequest request) {
         try {
-            Customer customer = customerService.getByPhone(request.getCustomerPhone());
+            Customer customer = customerService.getCustomerByPhone(request.getCustomerPhone());
             Employee employee = employeeService.getEmploye(request.getEmployeeEmail());
             String invoice = generateInvoice(LocalDate.now());
-            Order order = Order.builder().build();
+            String id = viewAll().size() + 1+"ID";
 
-            orderRepository.createOrder(order.getId(),invoice,LocalDateTime.now(),customer,employee);
+            orderRepository.createOrder(id,invoice,LocalDateTime.now(),customer,employee);
             Order orderSaved = orderRepository.findByInvoice(invoice);
 
             List<OrderDetailRequest> orderDetailRequests = request.getOrderDetailRequests();
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
                         .productCode(product.getCodeProduct())
                         .product(productByCode.getName())
                         .quantity(product.getQuantity())
-                        .price(product.getPrice())
+                        .price(productByCode.getPrice())
                         .order(orderSaved)
                         .build());
             }).collect(Collectors.toList());
@@ -66,10 +66,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderResponse getByInvoice(String invoice) {
+        Order order = orderRepository.findByInvoice(invoice);
+        return toOrderResponse(order,order.getDetailOrders());
+    }
+
+    @Override
     public List<OrderResponse> viewAll() {
         return orderRepository.findAllOrder().stream().map(order -> {
-            return toOrderResponse(order, order.getDetailOrders());
+            List<DetailOrder> detailOrders = order.getDetailOrders();
+            return toOrderResponse(order, detailOrders);
         }).collect(Collectors.toList());
+
     }
 
     private String generateInvoice(LocalDate dateTime){
@@ -88,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
         }).collect(Collectors.toList());
 
         return OrderResponse.builder()
+                .invoice(order.getInvoice())
                 .orderDate(order.getOrderDate().toLocalDate().toString())
                 .detailResponse(orderResponses)
                 .customerName(order.getCustomer().getName())

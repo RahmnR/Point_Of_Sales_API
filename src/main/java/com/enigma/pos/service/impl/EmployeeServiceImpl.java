@@ -27,15 +27,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional(rollbackOn = Exception.class)
     @Override
     public EmployeeResponse create(EmployeeRequest request) {
-        Employee employee = employeeRepository.save(Employee.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .build());
-
-        return EmployeeResponse.builder()
-                .name(employee.getName())
-                .email(employee.getEmail())
-                .build();
+        try {
+            String id = "EMP" + employeeRepository.findAllEmployee().size() + 1;
+            if (request.getEmail() != null && request.getName() != null) {
+                employeeRepository.createEmployee(id, request.getEmail(), request.getName());
+            }
+            Employee employee = employeeRepository.findEmployeeById(id);
+            return EmployeeResponse.builder()
+                    .name(employee.getName())
+                    .email(employee.getEmail())
+                    .build();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
@@ -64,12 +68,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }).collect(Collectors.toList());
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public EmployeeResponse update(EmployeeRequest request) {
         try {
             Employee employee = employeeRepository.findEmployeeByEmail(request.getEmail()).get();
-            employeeRepository.updateEmployeeBy(request.getName(), request.getEmail());
-            return EmployeeResponse.builder().build();
+            if (employee!=null) {
+                employeeRepository.updateEmployeeBy(request.getName(), request.getEmail());
+                return EmployeeResponse.builder().name(request.getName()).email(request.getEmail()).build();
+            }
+            return null;
         }catch (RuntimeException e){
             throw new RuntimeException(e.getMessage());
         }

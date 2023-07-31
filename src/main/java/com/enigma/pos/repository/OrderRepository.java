@@ -23,6 +23,7 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     @Query(value = "SELECT * FROM t_order",nativeQuery = true)
     List<Order> findAllOrder();
 
-    @Query(value = "SELECT o FROM t_order as o WHERE invoice = :invoice",nativeQuery = true)
+    @Query(value = "SELECT * FROM t_order as o WHERE invoice = :invoice",nativeQuery = true)
     Order findByInvoice(@Param("invoice")String invoice);
+
 }

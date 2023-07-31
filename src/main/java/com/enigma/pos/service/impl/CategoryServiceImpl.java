@@ -16,8 +16,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getOrSave(String category) {
-        return categoryRepository.findByCategoryIgnoreCase(category).orElseGet(() ->
-            categoryRepository.saveAndFlush(Category.builder().category(category).build())
+        return categoryRepository.findByCategoryIgnoreCase(category.toLowerCase()).orElseGet(() ->{
+            String id = "CAT" + categoryRepository.findAllCategory().size()+1;
+            categoryRepository.createCategory(id,category.toLowerCase());
+            return categoryRepository.findCategoryById(id);
+                }
         );
     }
 }

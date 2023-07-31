@@ -1,7 +1,6 @@
 package com.enigma.pos.controller;
 
 import com.enigma.pos.entity.Customer;
-import com.enigma.pos.model.response.CustomerResponse;
 import com.enigma.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +9,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/customer")
-public class CustonerController {
+@RequestMapping(path = "/customers")
+public class CustomerController {
     private final CustomerService customerService;
 
     @Autowired
-    public CustonerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
@@ -28,7 +27,7 @@ public class CustonerController {
         return customerService.getAll();
     }
 
-    @GetMapping("/phone")
+    @GetMapping("/{phone}")
     public  Customer getByPhone(@PathVariable String phone){
         return customerService.getCustomerByPhone(phone);
     }
@@ -38,10 +37,10 @@ public class CustonerController {
         return customerService.updateById(customer);
     }
 
-    @DeleteMapping("/phone")
-    public String delete(@PathVariable String phone){
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable String id){
         try {
-            customerService.deleteByPhone(phone);
+            customerService.deleteById(id);
             return "Success";
         }catch (ResponseStatusException e){
             throw new ResponseStatusException(e.getStatus());

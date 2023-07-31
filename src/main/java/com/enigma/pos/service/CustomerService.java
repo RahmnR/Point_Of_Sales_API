@@ -1,7 +1,6 @@
 package com.enigma.pos.service;
 
 import com.enigma.pos.entity.Customer;
-import com.enigma.pos.model.response.CustomerResponse;
 
 import java.util.List;
 
@@ -10,5 +9,5 @@ public interface CustomerService {
     Customer getCustomerByPhone(String phone);
     List<Customer> getAll();
     Customer updateById(Customer customer);
-    void deleteByPhone(String phone);
+    void deleteById(String id);
 }

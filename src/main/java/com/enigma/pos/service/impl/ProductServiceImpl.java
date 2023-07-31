@@ -29,14 +29,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse create(ProductRequest request) {
         try {
+            String id = "PDC"+productRepository.findAllProduct().size()+1;
             Category category = categoryService.getOrSave(request.getCategory());
-            Product product = Product.builder()
-                    .codeProduct(codeGenerate(request))
-                    .name(request.getProductName())
-                    .price(request.getPrice())
-                    .category(category)
-                    .build();
-            productRepository.saveAndFlush(product);
+            if (request.getProductName() != null && request.getPrice() >= 0 && request.getCategory() != null) {
+                productRepository.createProduct(id,codeGenerate(request),request.getProductName(),
+                        request.getPrice(),category);
+
+            }
+            Product product = productRepository.findProductById(id);
             return ProductResponse.builder()
                     .codeProduct(product.getCodeProduct())
                     .productName(product.getName())
@@ -109,6 +109,6 @@ public class ProductServiceImpl implements ProductService {
     private String codeGenerate(ProductRequest request){
         int size = productRepository.findAllProduct().size();
         String productName = request.getProductName();
-        return productName.substring(0,3)+(size+1);
+        return productName.substring(0,3).toUpperCase()+(size+1);
     }
 }

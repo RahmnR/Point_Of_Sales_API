@@ -13,8 +13,6 @@ import javax.persistence.*;
 @Table(name = "t_order_detail")
 public class DetailOrder {
     @Id
-    @GenericGenerator(strategy = "uuid2", name = "system-uuid")
-    @GeneratedValue(generator = "system-uuid")
     @Column(name = "id_detail")
     private String id;
 
@@ -31,8 +29,8 @@ public class DetailOrder {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "id")
     @JsonBackReference
+    @JoinColumn(name = "order_id")
     private Order order;
 
     public DetailOrder() {

@@ -18,6 +18,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Transactional(rollbackOn = Exception.class)
     @Override
     public DetailOrder create(DetailOrder detailOrder) {
-        return orderDetailRepository.saveAndFlush(detailOrder);
+        String id = "DT"+orderDetailRepository.findAllDetail().size()+1;
+
+        orderDetailRepository.createDetail(id,detailOrder.getPrice(), detailOrder.getProduct(), detailOrder.getProductCode(),
+                detailOrder.getQuantity(),detailOrder.getOrder());
+        
+        return orderDetailRepository.findDetailById(id);
     }
 }

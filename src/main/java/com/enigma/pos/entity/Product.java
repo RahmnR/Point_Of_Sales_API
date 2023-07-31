@@ -12,8 +12,6 @@ import javax.persistence.*;
 @Table(name = "m_product")
 public class Product {
     @Id
-    @GenericGenerator(strategy = "uuid2", name = "system-uuid")
-    @GeneratedValue(generator = "system-uuid")
     @Column(name = "id")
     private String id;
 

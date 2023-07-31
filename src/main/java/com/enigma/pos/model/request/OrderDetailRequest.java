@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 public class OrderDetailRequest {
     private String codeProduct;
-    private Long price;
     private Integer quantity;
-    private String category;
 }
